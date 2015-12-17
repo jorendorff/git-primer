@@ -125,7 +125,7 @@ Here's the puzzle. How do we undo it?
 This is a sneaky one. There's an easy answer and a hard answer.
 
 
-## Segue
+## The theme
 
 You may have noticed a theme with these puzzles.
 They were all about fixing mistakes, right?
@@ -144,3 +144,20 @@ is to sweep the whole stupid disaster into the Recycle Bin
 and make a new clone.
 But then what will you do
 when you've got hours or weeks of work in there?
+
+
+## Split personality
+
+OK, one more puzzle.
+
+Download http://people.mozilla.org/~jorendorff/puzzle-repo.zip
+and unzip it into some convenient place.
+
+    wget http://people.mozilla.org/~jorendorff/puzzle-repo.zip
+    unzip puzzle-repo.zip
+    cd tmp
+
+Your mission now is to figure out what has happened in this repo.
+Is the working tree clean?
+Is it a good idea to `git commit` right now?
+
