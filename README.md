@@ -25,7 +25,7 @@ in a fairly limited way.
 
 *   Branches
 
-    (Vocabulary: branch pointer, HEAD, reference, upstream,
+    (Vocabulary: branch pointer, head, `HEAD`, reference, upstream,
     detached HEAD)
 
 *   Pushing and pulling
