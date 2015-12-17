@@ -19,23 +19,31 @@ in a fairly limited way.
     `master`, initial commit, index, stage, staging area, tracked,
     clean, cached.)
 
-*   [Git puzzles](03-puzzles.md)
-
-    (Vocabulary: revert, backout, amend, parent, patch, diff)
+*   [Git basics puzzles](03-puzzles.md)
 
 *   Branches
 
     (Vocabulary: branch pointer, head, `HEAD`, reference, upstream,
     detached HEAD)
 
+*   Branches puzzles
+
+    (Vocabulary: amend, parent, patch, diff)
+
 *   Pushing and pulling
 
     (Vocabulary: clone, push, pull, fetch, remote, origin,
     remote-tracking branch, origin/master)
 
+*   Pushing and pulling puzzles
+
+    (Vocabulary: revert, backout)
+
 *   Merging and rebasing
 
-    (Vocabulary: merge, rebase, conflict, abort)
+    (Vocabulary: merge, mergetool, rebase, conflict, abort)
+
+*   Merging and rebasing final exam
 
 *   The object store
 
