@@ -33,7 +33,7 @@ in a fairly limited way.
     (Vocabulary: clone, push, pull, fetch, remote, origin,
     remote-tracking branch, origin/master)
 
-*   Merge and rebase
+*   Merging and rebasing
 
     (Vocabulary: merge, rebase, conflict, abort)
 

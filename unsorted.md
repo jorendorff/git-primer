@@ -12,35 +12,27 @@
 
 
 
-## Exercises
+## "Branches" puzzles
 
-(See `../git-primer`.)
+### Undoing `git commit`
 
+You just committed a ton of work, and it
+was a major mistake. You haven't pushed the change yet. You want to
+undo only the commit, leaving the index and working directory alone.
 
-### Basics
-
-Clone a repository.
-Make edits.
-`git add` an edited file.
-`git add` a new file.
-`git commit`.
-`git push`.
+Solution:  `git reset --soft HEAD^`
 
 
-### Undo (or: beginning time travel)
+### Discussion after "undoing `git commit`"
 
-(see `../git-primer/undo`)
+Really, `git reset` is a masterpiece of bad UI design.
+Check this out:
 
-*   Discussion after "undoing `git commit`":
+*   `git reset [SHA] FILE` only touches the index.
 
-    Really, `git reset` is a masterpiece of bad UI design.
-    Check this out:
+*   `git reset`, with no arguments at all, only touches the index.
 
-    `git reset [SHA] FILE` only touches the index.
-
-    `git reset`, with no arguments at all, only touches the index.
-
-    `git reset [--soft/--hard/--mixed/--keep] SHA`,
+*   `git reset [--soft/--hard/--mixed/--keep] SHA`,
     with a SHA argument but no file arguments,
     changes the branch pointer.
     Some of the options have it touching the index and working tree too.
@@ -49,68 +41,123 @@ Make edits.
     can't remember what "soft" and "hard" mean. Could they possibly have
     used less informative words here?
 
-*   `git push` - (another exercise not on the worksheet, for group discussion)
 
-    Oops. Not only did you commit the work, you actually
-    pushed it to the central repository. Now what?
+### Undoing `git push`
 
-    This is not as simple as other cases. *(prompt)* Why?
+Oops. Not only did I commit the work, I actually
+pushed it to the central repository. Now what?
 
-    Right, other users may already have pulled the bad commit.
-    Once multiple users have a bad commit, it is pretty much permanent.
+This is not as simple as other cases. *(prompt:)* Why?
 
-    So how do you recover? The best thing to do here is usually
-    to push a new commit *reverting* the changes:
+Right, other users may already have pulled the bad commit.
+Once multiple users have a bad commit, it is pretty much permanent.
 
-        git revert HEAD
-        git push origin master
+So how do you recover? The best thing to do here is usually
+to push a new commit *reverting* the changes:
 
-    (explain what `git revert` does)
+    git revert HEAD
+    git push origin master
 
-    But what if you just pushed a file containing a secret, like a password?
-    Change the password.
-    Because that file is now in the history.
+(explain what `git revert` does)
 
-    Suppose you accidentally committed a database of patient records.
-    It's confidential information and it absolutely has to be stripped
-    out of the repository.
+But what if you just pushed a file containing a secret, like a password?
+Change the password.
+Because that file is now in the history.
 
-    This is when you send email and get help from an expert.
+Suppose you accidentally committed a database of patient records.
+It's confidential information and it absolutely has to be stripped
+out of the repository.
 
-    *(prompt)* Why is this hard?
+This is when you send email and get help from an expert.
 
-    By design, git is *append-only, mostly*.
-    Information is only added to a repository, never deleted.
+*(prompt:)* Why is this hard?
 
-    This is one of git's saving graces actually.
-    It's your safety net.
-    I wouldn't want to use such a weird, complicated tool
-    to store all my work
-    if it was in the habit of deleting and overwriting stuff
-    every time I issued a command.
+By design, git is *append-only, mostly*.
+Information is only added to a repository, never deleted.
 
-    So it doesn't. It has logs for everything.
-    Even if you manually go in and mess up a branch,
-    even if you use `git gc` to try and destroy all unreachable files,
-    git *still* doesn't delete anything that was in any branch within the past 90 days
-    (by default).
+This is one of git's saving graces actually.
+It's your safety net.
+I wouldn't want to use such a weird, complicated tool
+to store all my work
+if it was in the habit of deleting and overwriting stuff
+every time I issued a command.
 
-    http://stackoverflow.com/questions/2046638/use-of-git-rebase-in-publicy-feature-branchs/2046748#2046748
+So it doesn't. It has logs for everything.
+Even if you manually go in and mess up a branch,
+even if you use `git gc` to try and destroy all unreachable files,
+git *still* doesn't delete anything that was in any branch within the past 90 days
+(by default).
 
-    "If you rebase, you rewrite history. And just like in the real
-    world, if you want to rewrite history, you need a conspiracy:
-    everybody has to be "in" on the conspiracy (at least everybody who
-    knows about the history, i.e. everybody who has ever pulled from the
-    branch)."
+http://stackoverflow.com/questions/2046638/use-of-git-rebase-in-publicy-feature-branchs/2046748#2046748
 
-Discussion: Except for `git push` and `git pull/fetch`,
+> If you rebase, you rewrite history. And just like in the real world,
+> if you want to rewrite history, you need a conspiracy: everybody has
+> to be "in" on the conspiracy (at least everybody who knows about the
+> history, i.e. everybody who has ever pulled from the branch).
+
+Except for `git push` and `git pull/fetch`,
 all git commands do nothing more or less than mess around with files on your disk,
-including files in your `.git` directory.
+either files in your `.git` directory,
+or files in your working tree.
 So if you are doing something new and risky, just zip up your whole directory first.
 
 The easiest and surest way to undo a disaster is to go to your backup.
 That way you don't have to rely on git commands which may themselves backfire.
 
+
+
+
+
+
+## "Merge and rebase" puzzles
+
+
+### Undoing a busted merge
+
+You just did:
+
+    git checkout master
+    git merge mybranch1
+
+And there were a ton of conflicts.
+
+You don't have time to deal with this right now and you want your repo back.
+How can you recover?
+
+Solution: `git merge --abort` ?
+
+
+### Undoing a "successful" merge
+
+You just did:
+
+    git checkout master
+    git merge mybranch2
+
+As far as git's concerned, the merge succeeded.
+
+Unfortunately, the resulting codebase is a massive mess. It won't
+even run.  You need to try something else-- but the first order of
+business is to undo the merge.
+
+Solution: `git reset --soft HEAD^` again
+
+
+### Undoing `git rebase`
+
+You just did:
+
+    git rebase master
+
+to rebase your whole current branch `topic` on top of the current
+`HEAD` of `master`.
+
+The rebased work doesn't pass tests, and you're having trouble
+figuring out what went wrong.  You want to just forget the whole
+rebase, go back to the pre-rebase version, make sure that passed
+tests, and go from there. How?
+
+Solution: `git reset --hard topic{1}` ?
 
 
 ### Detective work

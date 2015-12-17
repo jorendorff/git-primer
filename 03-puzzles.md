@@ -1,119 +1,146 @@
-The goal of this exercise is to figure out how to undo some common
-commands that change something in your git repository.
+## Git puzzles
 
-To start, find a convenient directory to work in, and type
+Let's do a few puzzles.
+
+You can follow along on your laptop.
+Find a convenient directory to work in, and type:
 
     git clone https://github.com/jorendorff/peeredit.git
     cd peeredit
 
-Then, try the examples below.
-Each example will have you run a command,
-then figure out how to undo that command using `git`.
+Did that work?
 
-In every case, try to find a command that exactly undoes the
-command listed, not a "clobber everything and start from scratch" command.
+*(prompt:)* What does this command do?
 
-*   **Undoing simple edits** - You've edited a file of source code, totally
-    screwed it up, and saved it. To simulate this, run this command:
 
-        sed -i 's/fun/malfun/' index.js
+### Undoing simple edits
 
-    This edits `index.js` by doing a global search-and-replace. After
-    running it, you can use `git diff` to see what it did.
+Let's say I open a file in here (say `index.js`)
+and do a global search-and-replace,
+replacing `fun` with `malfun`,
+because there's some variable I want to rename or something.
+I save the file and exit the editor.
 
-    Now you want to undo all those edits,
-    restoring `index.js` to how it looked at the previous commit.
-    You could manually edit the file to undo each change,
-    but that would be tedious.
-    What `git` command will undo these edits?
+Then I do `git diff` and realize that I've accidentally
+turned all my JS functions into malfunctions.
 
-    Hint: Try `git status` and read the output closely.
+Now I want to undo all those edits,
+restoring `index.js` to how it looked at the previous commit.
+I could manually edit the file to undo each change,
+but that would be tedious.
+What `git` command will undo these edits?
 
-    Solution:  `git checkout FILE`
+Raise your hand when you think you've got it.
 
-*   **Undelete** - You accidentally deleted a whole directory.
+*(Hint: Try `git status` and read the output closely.)*
 
-    In a clean repository, run this command:
 
-        rm -r test
+## Undoing `git add`
 
-    What git command brings it back?
+Let's say I have been working in this repository for a while.
 
-    Solution:  `git checkout DIR`
+    echo "WORK WORK WORK" >> index.html
+    echo "FIX FIX FIX" >> index.html
+    git add index.html
 
-*   **Undoing `git rm`** - Same thing, but you also made the mistake of
-    telling `git` what you were doing.
+And I meant to commit this work, but let's say I forgot,
+I just went home and left it sitting there.
 
-         git rm -r test
+The changes are in my working tree and in the index.
+They just haven't been committed yet.
 
-    How can you undo that?
+OK, now I come into work the next day and:
 
-    Solution:  `git reset -- test; git checkout test`
+    echo "HOURS OF TRICKY WORK" >> index.js
+    git add index.js
 
-*   **Undoing `git mv`** - Oops. You didn't mean to move/rename that file.
+*(prompt:)* What do you think `git status` will show now?
 
-        git mv index.js undex.js
+What mistake have I made?
 
-    Solution:  `git mv undex.js index.js`
+How can we undo it?
+Keep in mind:
 
-    Solution:  `git reset -- index.js; git checkout index.js; git rm -f undex.js`
+1.  I only want to undo the last command.
 
-*   **Undoing `git add`** - In a clean repository, run these three commands:
+2.  I don't want to lose hours of tricky work.
 
-        git mv test/test.js test/test_basics.js     # rename a file
-        echo "HOURS OF TRICKY WORK" >> index.js     # edit a file
-        git add index.js                            # stage the edit
 
-    You want to undo only the last command.
-    This should leave the changes to index.js in your working directory.
+## Undelete
 
-    Bonus: Can you figure out what the scenario is here?
-    Why would you want to undo a `git add` command?
+This time I'm going to accidentally delete a whole directory.
 
-    Solution: `git reset index.js`
+    rm -r test
 
-*   **Undoing `git commit`** - You just committed a ton of work, and it
-    was a major mistake. You haven't pushed the change yet. You want to
-    undo only the commit, leaving the index and working directory alone.
+Oops! I meant to *run* the tests, not *obliterate* the tests!
+Oh well.
 
-    Solution:  `git reset --soft HEAD~` ?
+What git command brings them back?
 
-*   **Undoing a busted merge** - You just did:
 
-        git checkout master
-        git merge mybranch1
+## Undoing `git rm`
 
-    And there were a ton of conflicts.
+OK, same thing, but let's say I also made the mistake of
+telling `git` what I was doing.
 
-    You don't have time to deal with this right now and you want your repo back.
-    How can you recover?
+     git rm -r test
 
-    Solution: `git merge --abort` ?
+First of all, how is this different from the previous puzzle?
+In that puzzle, I did `rm -r test`, in this one, `git rm -r test`.
+Is there a difference?
 
-*   **Undoing a "successful" merge** - You just did:
+See if you can undo this.
 
-        git checkout master
-        git merge mybranch2
+*(Hint: It might take two commands.)*
 
-    As far as git's concerned, the merge succeeded.
 
-    Unfortunately, the resulting codebase is a massive mess. It won't
-    even run.  You need to try something else-- but the first order of
-    business is to undo the merge.
+# Undoing `git mv`
 
-    Solution: `git reset --soft HEAD~` again
+OK, let's try something else.
 
-*   **Undoing `git rebase`** - You just did:
+    git mv index.js undex.js
 
-        git rebase master
+*(prompt:)* What did I just do?
 
-    to rebase your whole current branch `topic` on top of the current
-    `HEAD` of `master`.
+    ls
 
-    The rebased work doesn't pass tests, and you're having trouble
-    figuring out what went wrong.  You want to just forget the whole
-    rebase, go back to the pre-rebase version, make sure that passed
-    tests, and go from there. How?
+The file was renamed, in my working tree at least.
 
-    Solution: `git reset --hard topic{1}` ?
+Was it renamed in the index too?
 
+    git status
+
+If that's not clear enough for you, you can use `git diff`:
+
+    git diff
+    git diff --staged
+
+So it looks like `git mv` did rename the file both in the working tree
+and in the index.
+
+OK, so let's say `undex.js` is just a typo,
+I didn't really mean to rename that file to a typo.
+Here's the puzzle. How do we undo it?
+
+This is a sneaky one. There's an easy answer and a hard answer.
+
+
+## Segue
+
+You may have noticed a theme with these puzzles.
+They were all about fixing mistakes, right?
+Undoing damage.
+
+I made puzzles about undo because it's a very common need.
+
+And these puzzles illustrate just how important it is
+to understand Git thoroughly.
+If you don't understand Git pretty well,
+you'll find this kind of puzzle quite difficult.
+And that's too bad, because these things happen.
+
+Another way to solve any of these puzzles
+is to sweep the whole stupid disaster into the Recycle Bin
+and make a new clone.
+But then what will you do
+when you've got hours or weeks of work in there?
