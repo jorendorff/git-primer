@@ -54,4 +54,6 @@
 *   `git commit` - discuss `EDITOR`
 *   `git status`
     *   **clean** - Unchanged since the last commit.
+*   `git diff` and `git diff --staged`
+    *   **cached** - Staged.
 

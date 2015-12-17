@@ -255,3 +255,96 @@ This is a lot shorter than last time.
 Git doesn't have much to say about clean files.
 Since everything is clean right now,
 we're getting the minimum output from `git status`.
+
+When you see this, it means that
+*(indicating the whiteboard)*
+your working directory,
+the index,
+and the most recent commit
+all contain the same files, the same directories, the same data.
+
+
+## How to ask basic questions
+
+A key survival skill in `git`, or any complex system really,
+is how to find out what's going on without changing anything.
+
+`git status` is great.
+Here are two more.
+
+*   `git diff` shows you the differences
+    between your working tree and the index.
+
+    *(whiteboard: write "compare" and draw the `git diff` arrow)*
+
+*   `git diff --staged` shows you the differences
+    between the index and the last commit.
+
+    That is, it shows you what would be in your new commit
+    if you decided to commit right now.
+
+    *(whiteboard: draw the `git diff --staged` arrow)*
+
+    You'll often see `git diff --cached`.
+    **Cached** means staged.
+    The two are completely synonymous.
+
+`git status` only tells you which files changed.
+These commands show exactly what was changed in each file.
+
+
+## Two more commands
+
+I'm going to show you two more commands now,
+and then we'll do some puzzles together
+to see if you've been paying attention.
+
+*(whiteboard: draw the two leftward arrows)*
+
+So far we've only seen how to move changes from your brain,
+to the working tree, to the index, and finally to a commit.
+There are also commands to copy files in the other direction.
+
+You use these when you've screwed up.
+
+*   `git checkout FILENAME` takes whatever version of a file you have in the index,
+    and copies that to your working tree.
+
+    So whatever's in your working tree with that filename gets clobbered.
+    It's overwritten with what's in the index.
+
+    So this is kind of like a backwards version of `git add`.
+    Instead of data being copied from your working tree into the index,
+    this goes the other direction.
+
+    You can also `checkout` a directory;
+    `git` will clobber all your edits in that whole directory.
+
+*   `git reset FILENAME` does not affect your working tree.
+    It takes a version of a file from the most recent commit
+    and copies that to the index,
+    overwriting whatever was in the index.
+
+Why are these useful? Well, we'll see.
+
+
+## The "complete" picture
+
+This is the picture I wish someone had shown me when I started using Git.
+
+*(the final picture on the whiteboard)*
+
+                           | .git/
+                           |         -----------                   ----------
+        working tree  <------------> |  index  | <--------------> (  commit  )
+                           |         -----------                   ----------
+                           |
+
+     compare: |<========= diff ==========>|<====== diff --cached ======>|
+
+     emacs--->*-----------add------------>*------------commit---------->*
+
+              *<-------checkout FILE------*<---------reset FILE---------
+
+
+This will be enough to get us started.
