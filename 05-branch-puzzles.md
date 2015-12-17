@@ -2,11 +2,23 @@
 
 ### Undoing `git commit`
 
-You just committed a ton of work, and it
-was a major mistake. You haven't pushed the change yet. You want to
-undo only the commit, leaving the index and working directory alone.
+Go back to your `peeredit` directory and do `git status`.
+It should be clean.
+If not, blow it away and re-clone that repository from github.
 
-Solution:  `git reset --soft HEAD^`
+Here's a new puzzle.
+
+    echo "TONS OF WORK" >> index.js
+    git commit -m "New caribou detection algorithm"
+
+OK, I just committed a ton of work. Only it was a major mistake.
+Before pushing the change to the server, I find out that nothing works.
+Everything is broken.
+
+I want to undo only the commit,
+leaving the index and working directory alone.
+
+How can I do it?
 
 
 ### Discussion after "undoing `git commit`"
@@ -26,3 +38,27 @@ Check this out:
     I always consult the man page before using this flavor, because I
     can't remember what "soft" and "hard" mean. Could they possibly have
     used less informative words here?
+
+
+### Fixing a commit on the wrong branch
+
+*(You can do this exercise in the `peeredit` directory.)*
+
+Let's say we create a new branch for work on antlers.
+
+    git branch antlers
+
+We make some changes...
+
+    echo "WORK WORK WORK" >> index.js
+
+...and commit them.
+
+    git commit -m "initial antler code"
+
+And then we realize we just made a mistake.
+What was the mistake?
+
+How can we undo that?
+
+Keep in mind we'd rather not lose the changes if possible.
