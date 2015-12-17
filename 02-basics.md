@@ -339,8 +339,8 @@ This is the picture I wish someone had shown me when I started using Git.
         working tree  <------------> |  index  | <--------------> (  commit  )
                            |         -----------                   ----------
                            |
-
-     compare: |<========= diff ==========>|<====== diff --cached ======>|
+               +                         - +                           -
+     compare: |<========= diff ==========>|<====== diff --staged ======>|
 
      emacs--->*-----------add------------>*------------commit---------->*
 
