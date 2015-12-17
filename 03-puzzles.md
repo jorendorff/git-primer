@@ -35,7 +35,7 @@ Raise your hand when you think you've got it.
 *(Hint: Try `git status` and read the output closely.)*
 
 
-## Undoing `git add`
+### Undoing `git add`
 
 Let's say I have been working in this repository for a while.
 
@@ -66,7 +66,7 @@ Keep in mind:
 2.  I don't want to lose hours of tricky work.
 
 
-## Undelete
+### Undelete
 
 This time I'm going to accidentally delete a whole directory.
 
@@ -78,7 +78,7 @@ Oh well.
 What git command brings them back?
 
 
-## Undoing `git rm`
+### Undoing `git rm`
 
 OK, same thing, but let's say I also made the mistake of
 telling `git` what I was doing.
@@ -94,7 +94,7 @@ See if you can undo this.
 *(Hint: It might take two commands.)*
 
 
-# Undoing `git mv`
+### Undoing `git mv`
 
 OK, let's try something else.
 
@@ -125,7 +125,7 @@ Here's the puzzle. How do we undo it?
 This is a sneaky one. There's an easy answer and a hard answer.
 
 
-## The theme
+### The theme
 
 You may have noticed a theme with these puzzles.
 They were all about fixing mistakes, right?
@@ -146,9 +146,9 @@ But then what will you do
 when you've got hours or weeks of work in there?
 
 
-## Split personality
+### Split personality
 
-OK, one more puzzle.
+OK, one more puzzle. This one is a little different.
 
 Download http://people.mozilla.org/~jorendorff/puzzle-repo.zip
 and unzip it into some convenient place.
