@@ -11,6 +11,22 @@
     git rm -f FILE1 ...      # if staged changes are not saved in repo at all
 
 
+## "Basics" detective work
+
+We're supplied directories. Our goal is to find out what happened here.
+
+1.  The repo is clean. We just cloned it.
+
+2.  `git diff` is clean, but uncommitted edits have been added to the index using `git add`.
+
+3.  A file has been `git mv`'d but this hasn't been committed yet.
+
+4.  A file or directory has been `git rm`'d.
+
+    Or removed from disk but not `git rm`'d.
+
+(These are all too easy to bother with, I think.)
+
 
 ## "Branches" puzzles
 
@@ -106,11 +122,7 @@ That way you don't have to rely on git commands which may themselves backfire.
 
 
 
-
-
-
-## "Merge and rebase" puzzles
-
+## "Merging and rebasing" puzzles
 
 ### Undoing a busted merge
 
@@ -160,27 +172,13 @@ tests, and go from there. How?
 Solution: `git reset --hard topic{1}` ?
 
 
-### Detective work
+## "Merging and rebasing" detective work
 
-We're supplied directories. Our goal is to find out what happened here.
+1.  Someone did `git merge` or `git pull` but there are conflicts.
 
-1.  The repo is clean. We just cloned it.
+2.  Someone did `git rebase` or `git pull --rebase` but there are conflicts.
 
-2.  `git diff` is clean, but uncommitted edits have been added to the index using `git add`.
-
-3.  We have added some changes using `git add` and then subsequently made more edits to the same file.
-
-4.  A file has been `git mv`'d but this hasn't been committed yet.
-
-5.  A file or directory has been `git rm`'d.
-
-    Or removed from disk but not `git rm`'d.
-
-6.  Someone did `git merge` or `git pull` but there are conflicts.
-
-7.  Someone did `git rebase` or `git pull --rebase` but there are conflicts.
-
-8.  Someone did `git pull`, triggering a merge that went horribly wrong.
+3.  Someone did `git pull`, triggering a merge that went horribly wrong.
     They did `git checkout .` and then `git commit`,
     basically clobbering all changes since the common ancestor, in the files with conflicts (???)
     (Is that how `git checkout` works on files that have multiple index entries?)
